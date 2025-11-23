@@ -7,19 +7,22 @@ version: "3"
 services:
   # Spark Notebook Server
   notebook:
-    image: alexmerced/spark33-notebook
+    build:
+      context: .
+      dockerfile: docker/notebook/Dockerfile
     container_name: notebook
     networks:
       iceberg:
     volumes:
-      - ./warehouse:/home/docker/warehouse
-      - ./notebooks:/home/docker/notebooks
-      - ./datasets:/home/docker/datasets
+      - ./warehouse:/home/jovyan/warehouse
+      - ./notebooks:/home/jovyan/notebooks
+      - ./datasets:/home/jovyan/datasets
     environment:
       - AWS_ACCESS_KEY_ID=admin
       - AWS_SECRET_ACCESS_KEY=password
       - AWS_REGION=us-east-1
       - AWS_DEFAULT_REGION=us-east-1
+      - PYSPARK_SUBMIT_ARGS=pyspark-shell
     ports:
       - 8888:8888
       - 8080:8080
@@ -50,7 +53,7 @@ services:
       - 9000:9000
     command: ["server", "/data", "--console-address", ":9001"]
   # Dremio
-  dremio:
+  dremio: # password1 andreas
     platform: linux/x86_64
     image: dremio/dremio-oss:latest
     ports:

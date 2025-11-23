@@ -5,6 +5,7 @@ To start up the different containers individually.
 spark 3.3 with jupyter notebook
 
 ```
+docker-compose build notebook
 docker-compose up notebook
 ```
 
@@ -31,5 +32,7 @@ There are three folders in this repo mapped specifically to the spark/notebook c
 - `datasets` use this for any sample datasets
 - `notebooks` for storing notebooks
 - `warehouse` to be used as a warehouse for written data
+
+The notebook container is now built from `docker/notebook/Dockerfile`, which pre-downloads the Iceberg, Nessie, and AWS SDK JARs and makes them available offline. Rebuild the image (`docker-compose build notebook`) whenever you change the Dockerfile or bump dependency versions.
 
 [Find Guides and Tutorials Here](https://github.com/developer-advocacy-dremio/quick-guides-from-dremio)
